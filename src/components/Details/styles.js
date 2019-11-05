@@ -8,12 +8,12 @@ export const Container = styled.View`
   bottom: 0;
   shadow-color: #000;
   shadow-offset: 0 0;
-  shadow-opacity: 0.2;
+  shadow-opacity: 0.2
   shadow-radius: 10;
   elevation: 3;
-  border: 1px solid #ddd;
+  border: 1px solid #DDD;
   align-items: center;
-  padding: 20px;
+  padding: 20px
 `;
 
 export const TypeTitle = styled.Text`
@@ -40,7 +40,7 @@ export const RequestButton = styled.TouchableOpacity`
   margin-top: 10px;
 `;
 
-export const RequestButtonText = styled.Text`
+export const ResquestButtonText = styled.Text`
   color: #fff;
   font-weight: bold;
   font-size: 18px;
