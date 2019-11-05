@@ -6,24 +6,23 @@ import {
   TypeDescription,
   TypeImage,
   RequestButton,
-  RequestButtonText
+  ResquestButtonText
 } from "./styles";
 
-import uberx from "../../assets/uberx.png";
+import uberx from "../../../assets/uberx.png";
 
 export default class Details extends Component {
   render() {
     return (
       <Container>
-        <TypeTitle>Popular</TypeTitle>
-        <TypeDescription>Viagens baratas para o dia a dia</TypeDescription>
-
+        <TypeTitle> Popular </TypeTitle>
+        <TypeDescription> Viagens baratas para o dia a dia </TypeDescription>
         <TypeImage source={uberx} />
         <TypeTitle>UberX</TypeTitle>
-        <TypeDescription>R$6,00</TypeDescription>
+        <TypeDescription>R$6,00 </TypeDescription>
 
         <RequestButton onPress={() => {}}>
-          <RequestButtonText>SOLICITAR UBERX</RequestButtonText>
+          <ResquestButtonText>Solicitar UberX</ResquestButtonText>
         </RequestButton>
       </Container>
     );

@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components/native";
 import { Platform } from "react-native";
-
 export const LocationBox = styled.View`
   background: #fff;
   shadow-color: #000;
@@ -39,7 +38,7 @@ export const LocationTimeText = styled.Text`
   text-align: center;
 `;
 
-export const LocationTimeTextSmall = styled.Text`
+export const LocationTimeSmal = styled.Text`
   color: #fff;
   font-size: 10px;
   text-align: center;
@@ -47,6 +46,9 @@ export const LocationTimeTextSmall = styled.Text`
 
 export const Back = styled.TouchableOpacity`
   position: absolute;
-  top: ${Platform.select({ ios: 60, android: 40 })};
+  top: ${Platform.select({
+    ios: 60,
+    android: 40
+  })};
   left: 20px;
 `;

@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
-import { View, Image } from "react-native";
+import React from "react";
 import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, Image, View, Dimensions } from "react-native";
 import Geocoder from "react-native-geocoding";
 
 import { getPixelSize } from "../../utils";
@@ -9,48 +9,46 @@ import Search from "../Search";
 import Directions from "../Directions";
 import Details from "../Details";
 
-import markerImage from "../../assets/marker.png";
-import backImage from "../../assets/back.png";
+import markerImage from "../../../assets/marker.png";
+import backimage from "../../../assets/back.png";
 
 import {
-  Back,
   LocationBox,
   LocationText,
   LocationTimeBox,
   LocationTimeText,
-  LocationTimeTextSmall
+  LocationTimeSmal,
+  Back
 } from "./styles";
-
-Geocoder.init("AIzaSyB1O8amubeMkw_7ok2jUhtVj9IkME9K8sc");
-
-export default class Map extends Component {
+Geocoder.init("API KEY XXXXXXXXXXXX");
+export default class Map extends React.Component {
   state = {
     region: null,
     destination: null,
     duration: null,
     location: null
   };
-
   async componentDidMount() {
     navigator.geolocation.getCurrentPosition(
+      //Sucesso
       async ({ coords: { latitude, longitude } }) => {
         const response = await Geocoder.from({ latitude, longitude });
         const address = response.results[0].formatted_address;
         const location = address.substring(0, address.indexOf(","));
-
         this.setState({
           location,
           region: {
             latitude,
             longitude,
-            latitudeDelta: 0.0143,
-            longitudeDelta: 0.0134
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421
           }
         });
-      }, //sucesso
-      () => {}, //erro
+      },
+      //Erro
+      () => {},
       {
-        timeout: 2000,
+        timeout: 5000,
         enableHighAccuracy: true,
         maximumAge: 1000
       }
@@ -79,22 +77,21 @@ export default class Map extends Component {
     const { region, destination, duration, location } = this.state;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <MapView
-          style={{ flex: 1 }}
+          style={styles.mapStyle}
           region={region}
-          showsUserLocation
+          showsUserLocation={true}
           loadingEnabled
           ref={el => (this.mapView = el)}
         >
           {destination && (
-            <Fragment>
+            <>
               <Directions
                 origin={region}
                 destination={destination}
                 onReady={result => {
                   this.setState({ duration: Math.floor(result.duration) });
-
                   this.mapView.fitToCoordinates(result.coordinates, {
                     edgePadding: {
                       right: getPixelSize(50),
@@ -119,22 +116,21 @@ export default class Map extends Component {
                 <LocationBox>
                   <LocationTimeBox>
                     <LocationTimeText>{duration}</LocationTimeText>
-                    <LocationTimeTextSmall>MIN</LocationTimeTextSmall>
+                    <LocationTimeSmal>MIN</LocationTimeSmal>
                   </LocationTimeBox>
                   <LocationText>{location}</LocationText>
                 </LocationBox>
               </Marker>
-            </Fragment>
+            </>
           )}
         </MapView>
-
         {destination ? (
-          <Fragment>
-            <Back onPress={this.handleBack}>
-              <Image source={backImage} />
-            </Back>
+          <>
             <Details />
-          </Fragment>
+            <Back onPress={this.handleBack}>
+              <Image source={backimage} />
+            </Back>
+          </>
         ) : (
           <Search onLocationSelected={this.handleLocationSelected} />
         )}
@@ -142,3 +138,16 @@ export default class Map extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  mapStyle: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height
+  }
+});
